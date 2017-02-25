@@ -1,19 +1,25 @@
-class bond (object):
+import numpy as np
+from matplotlib import pyplot as plt # like tibo did
+
+
+
+class Bond (object):
 
     def __init__(self, term, amount, min_price, min_term, rate, acc_amount, nb_compounded, category):
-        self.term = term                # a term we'll invest in
-        self.amount = amount            # a certain amount invested in
-        self.min_price = min_price      # a minimum price of the bond
-        self.min_term = min_term        # a minimum term
-        self.rate = rate                # a yearly interest rate
-        self.acc_amount = acc_amount    # accumulated amount
-        self.nb_compounded = nb_compounded        # number of times the interest is compounded by year
-        self.category = category        # type of bond (short term, long term)
+        self.term = term                    # a term we'll invest in
+        self.amount = amount                # a certain amount invested in
+        self.min_price = min_price          # a minimum price of the bond
+        self.min_term = min_term            # a minimum term
+        self.rate = rate                    # a yearly interest rate
+        self.acc_amount = acc_amount        # accumulated amount
+        self.nb_compounded = nb_compounded  # number of times the interest is compounded by year
+        self.category = category            # type of bond (short term, long term)
 
 # short term bonds have a minimum of 2 years, min amount of 1000 and yearly interest rate of 1%
+# long term bonds have a minimum of 5 years, min amount of 3000 and a yearly interest of 3%
 
 
-class Typebond (bond):
+class TypeBond (Bond):
     def __init__(self):
         super().__init__()  # get attributes of the mother class
         self.type = []
@@ -45,8 +51,12 @@ class Typebond (bond):
         self.acc_amount = 0.00
         self.acc_amount = self.amount * (1 + self.rate/self.nb_compounded)
 
+# plot a graph of the evolution of the investment of the min allowed invested amount for both bonds over a period of
+# 100 years
 
-
+# temps en abscisse sur 100 ans, on choisit le nb de fois ou le bond est compounded
+#on prend le montant min et on calcule avc le compounded
+# on plot l evolution
 
 
 
