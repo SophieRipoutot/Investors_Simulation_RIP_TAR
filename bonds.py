@@ -1,67 +1,64 @@
-import numpy as np
-from matplotlib import pyplot as plt # like tibo did
-
+import matplotlib.pyplot as plt
 
 
 class Bond (object):
-
-    def __init__(self, term, amount, min_price, min_term, rate, acc_amount, nb_compounded, category):
+    def __init__(self, term, amount, rate):
         self.term = term                    # a term we'll invest in
         self.amount = amount                # a certain amount invested in
-        self.min_price = min_price          # a minimum price of the bond
-        self.min_term = min_term            # a minimum term
         self.rate = rate                    # a yearly interest rate
-        self.acc_amount = acc_amount        # accumulated amount
-        self.nb_compounded = nb_compounded  # number of times the interest is compounded by year
-        self.category = category            # type of bond (short term, long term)
+
 
 # short term bonds have a minimum of 2 years, min amount of 1000 and yearly interest rate of 1%
 # long term bonds have a minimum of 5 years, min amount of 3000 and a yearly interest of 3%
-
-
-class TypeBond (Bond):
-    def __init__(self):
-        super().__init__()  # get attributes of the mother class
-        self.type = []
-        self.category = ['Short term', 'Long term']
-
 # we define the short term and long term type for bonds
 # we create methods from the attributes of the class bond
 
-    def st_bond(self):
-        if self.term < 2:
-            if self.amount >= 2:
-                if self.amount <= 5:
-                    if self.rate == 0.01:
-                        self.type = [1]
-                        return self.type
 
-    def lt_bond(self):
-        if self.term >= 5:
-            if self.amount >= 3000:
-                if self.rate == 0.03:
-                    self.type = [2]
-                    return self.type
+class STBond(Bond):                         # we create a class heritage for short term bond
+    def __init__(self, amount, rate):
+        super(STBond, self).__init__(amount, rate)
+        self.amount = 1000
+        self.rate = 0.01
 
-# both are compounded yearly and have a way to calculate the compounded interest rate for a certain time t
-# create a function that allows to calculate the compounded interest rate at anytime time t
+    def bond_price(self, term):             # we calculate the price of the bond
+        price = self.amount * ((1 + self.rate) ** term)
+        return price
 
-    def comp_rate(self):
-        self.nb_compounded = 1
-        self.acc_amount = 0.00
-        self.acc_amount = self.amount * (1 + self.rate/self.nb_compounded)
+    def build_list(self):                   # we build a list that contains all bond price
+        list_price_bond = []
+        for i in range(1, 101):
+            list_price_bond.append(self.bond_price(i))
+            print(self.bond_price(i))
+        return list_price_bond
 
-# plot a graph of the evolution of the investment of the min allowed invested amount for both bonds over a period of
-# 100 years
+    def plot_graph(self):                   # we plot the graph
+        plt.plot(self.build_list())
+        plt.ylabel('Price Bond')
+        plt.xlabel('Term')
+        plt.show()
 
-# temps en abscisse sur 100 ans, on choisit le nb de fois ou le bond est compounded
-#on prend le montant min et on calcule avc le compounded
-# on plot l evolution
+# same thing for the Long term bond
 
 
+class LTBond(Bond):
+    def __init__(self, amount, rate):
+        super(LTBond, self).__init__(amount, rate)
+        self.amount = 3000
+        self.rate = 0.03
 
+    def bond_price(self, term):
+        price = self.amount * ((1+self.rate)**term)
+        return price
 
+    def build_list(self):
+        list_price_bond = []
+        for i in range(1, 101):
+            list_price_bond.append(self.bond_price(i))
+            print(self.bond_price(i))
+        return list_price_bond
 
-
-
-
+    def plot_graph(self):
+        plt.plot(self.build_list())
+        plt.ylabel('Price Bond')
+        plt.xlabel('Term')
+        plt.show()
